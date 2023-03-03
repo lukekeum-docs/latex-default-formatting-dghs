@@ -1,0 +1,261 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Document type, global settings, and packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt, twoside]{report}
+\usepackage[a4paper,hmargin=3.5cm,vmargin=5.3cm,head=1.5cm,foot=3.2cm]{geometry}
+\usepackage[bookmarks=true, hidelinks]{hyperref}     % hyperlink
+\usepackage{url}          % simple URL typesetting
+
+% https://tex.stackexchange.com/questions/47576/combining-ifxetex-and-ifluatex-with-the-logical-or-operation
+\usepackage{ifxetex,ifluatex}
+\newif\ifxetexorluatex
+\ifxetex
+  \xetexorluatextrue
+\else
+  \ifluatex
+    \xetexorluatextrue
+  \else
+    \xetexorluatexfalse
+  \fi
+\fi
+
+\ifxetexorluatex
+  % \usepackage{stix}
+  \usepackage{fontspec}
+  \usepackage{unicode-math}
+
+  \defaultfontfeatures{Scale=MatchLowercase,Ligatures=TeX}
+  % \setmainfont{STIX Two Text}
+  \setmainfont{Noto Serif}
+  \setmathfont{TeX Gyre Schola Math}
+  \usepackage[scale=0.8]{noto-mono}
+  \setmonofont{Noto Sans Mono}
+  % small url fonts
+  \renewcommand{\UrlFont}{\ttfamily\small}
+
+  \ifxetex
+    % https://gist.github.com/dlimpid/5454229
+    % Use xeCJK in XeLaTeX
+    \usepackage{xeCJK}
+    \xeCJKsetup{%
+      CJKspace=true,% % true이면 띄어쓰기 사용. 중국어, 일어는 필요 없을수도
+      % CJKmath=true,%  % true면 math environment 안에서 CJK 글자 사용
+      CJKecglue={}%   % Western과 CJK 사이의 공백 지정: {}로 간격을 없앰
+    }
+    \setCJKmainfont[
+      Path=fonts/,
+      Extension=.otf,
+      BoldFont=NotoSerifCJKkr-Bold,
+      AutoFakeSlant,
+      Ligatures=TeX]{NotoSerifCJKkr-Regular.otf}
+    \setCJKsansfont[
+      Path=fonts/,
+      Extension=.otf,
+      BoldFont=NotoSerifCJKkr-Bold,
+      AutoFakeSlant,
+      Ligatures=TeX]{NotoSerifCJKkr-Regular.otf}
+    \setCJKmonofont[
+      Path=fonts/,
+      Extension=.otf,
+      BoldFont=NotoSerifCJKkr-Bold,
+      AutoFakeSlant,
+      Ligatures=TeX]{NotoSerifCJKkr-Regular.otf}
+  \fi
+
+  \ifluatex
+    \usepackage[hangul]{luatexko}
+    \setmainhangulfont[
+      Path=fonts/,
+      UprightFont=*-Regular,
+      BoldFont=*-Bold,
+      Extension=.otf,
+      AutoFakeSlant,
+      Ligatures=TeX]{NotoSerifCJKkr}
+    \hangulbyhangulfont=1
+    \setmainfont{Noto Serif}
+    \setmathfont{TeX Gyre Schola Math}
+    \usepackage[scale=0.8]{noto-mono}
+    \setmonofont{Noto Sans Mono}
+  \fi
+\else
+  % pdflatex doesn't work due to siunitx and kotex conflict
+  % https://t.co/PgBfFh9rTU?amp=1
+  \usepackage{amssymb,amsmath,amsthm,amsfonts}
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+
+  % \usepackage{CJKutf8}
+  \usepackage{textcomp} % provide euro and other symbols
+
+  % use nanum font in Korean
+  \usepackage{dhucs-nanumfont}
+  % otherwise, use Noto fonts
+  \usepackage{noto}
+\fi
+
+\usepackage[finemath]{kotex} % Use kotex in PDFLaTeX
+
+\ifxetex
+  \XeTeXinputnormalization=1
+\fi
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=6mm,
+  belowskip=6mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\usepackage{setspace}   %use this package to set linespacing as desired
+\doublespacing
+\usepackage{afterpage}    % separate page for floats and tables
+\usepackage{titlefoot}    % keywords on footnote
+\usepackage{bookmark}
+\usepackage[explicit]{titlesec}  %title control and formatting
+\usepackage[titles]{tocloft}  %table of contents control and formatting
+\usepackage[page]{appendix}  %for appendices
+\usepackage[normalem]{ulem}  %for underlined section titles
+
+\usepackage{graphicx}  %for images and plots
+\usepackage[figuresright]{rotating}  %for rotated, landscape images
+\usepackage{adjustbox}    % fit table to page width
+
+\usepackage{booktabs}     % proessional-quality tables
+\usepackage{multicol} 		% use multicol in table
+\usepackage{multirow} 		% use multirow in table
+
+\usepackage[super]{nth}		% th
+\usepackage{siunitx}		  % SI unit
+
+\usepackage[noabbrev,nameinlink]{cleveref}		% for multiple cross-reference
+\usepackage[intoc]{nomencl}  % nomenclature
+\makenomenclature
+\setlength{\nomitemsep}{-\parsep}
+\setlength{\nomlabelwidth}{1.7cm}
+
+%%%%%%%%%%%%%%%%%%%%%%
+% Start of Document
+%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Title Page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{titlePage.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Table of Contents
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagenumbering{roman}
+\setcounter{page}{1} % set the page number appropriately based on the number of intro pages
+% Format for Table of Contents
+\renewcommand{\cftchapdotsep}{\cftdotsep}  %add dot separators
+\renewcommand{\cftchapfont}{\bfseries}  %set title font weight
+\renewcommand{\cftchappagefont}{}  %set page number font weight
+\renewcommand{\cftchappresnum}{제 }
+\renewcommand{\cftchapaftersnum}{장}
+\renewcommand{\cftchapnumwidth}{6em}
+\renewcommand{\cftchapafterpnum}{\vskip\baselineskip} %set correct spacing for entries in single space environment
+\renewcommand{\cftsecafterpnum}{\vskip\baselineskip}  %set correct spacing for entries in single space environment
+\renewcommand{\cftsubsecafterpnum}{\vskip\baselineskip} %set correct spacing for entries in single space environment
+\renewcommand{\cftsubsubsecafterpnum}{\vskip\baselineskip} %set correct spacing for entries in single space environment
+
+%format title font size and position (this also applys to list of figures and list of tables)
+\titleformat{\chapter}[display]
+{\normalfont\bfseries\filcenter}{\chaptertitlename\ \thechapter}{0pt}{\MakeUppercase{#1}}
+
+\renewcommand\contentsname{Table of Contents}
+
+\begin{singlespace}
+\tableofcontents
+\end{singlespace}
+
+\currentpdfbookmark{Table of Contents}{TOC}
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% List of figures and tables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\addcontentsline{toc}{chapter}{List of Tables}
+\begin{singlespace}
+	\setlength\cftbeforetabskip{\baselineskip}  %manually set spacing between entries
+	\listoftables
+\end{singlespace}
+
+\clearpage
+
+\addcontentsline{toc}{chapter}{List of Figures}
+\begin{singlespace}
+\setlength\cftbeforefigskip{\baselineskip}  %manually set spacing between entries
+\listoffigures
+\end{singlespace}
+
+\clearpage
+
+\printnomenclature
+\clearpage
+
+\currentpdfbookmark{Title Page}{titlePage}  %add PDF bookmark for this page
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Chapters
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%
+% formatting
+%%%%%%%%%%%%%%%%%%%%%%
+
+% resume page numbering for rest of document
+\clearpage
+\pagenumbering{arabic}
+\setcounter{page}{1} % set the page number appropriately
+
+% Adjust chapter title formatting
+\newcommand{\chapternamefont}{\scshape\Large}% Chapter name font
+\newcommand{\chaptertitlefont}{\LARGE\bfseries}% Chapter title font
+\titleformat{\chapter}[display]
+{\normalfont\bfseries\chapternamefont\raggedright}{\MakeUppercase\chaptertitlefont\chaptertitlename\ \thechapter}{0pt}{\MakeUppercase{#1}}  %spacing between titles
+\titlespacing*{\chapter}
+  {0pt}{\topskip}{30pt}	%controls vertical margins on title
+
+% Adjust section title formatting
+\titleformat{\section}{\normalfont\bfseries}{\thesection}{1em}{#1}
+
+% Adjust subsection title formatting
+% \titleformat{\subsection}{\normalfont}{\uline{\thesubsection}}{0em}{\uline{\hspace{1em}#1}}
+\titleformat{\subsection}{\normalfont\bfseries}{\thesubsection}{1em}{#1}
+
+% Adjust subsubsection title formatting
+\titleformat{\subsubsection}{\normalfont\itshape}{\thesubsection}{1em}{#1}
+
+%%%%%%%%%%%%%%%%
+% Chapter 1
+%%%%%%%%%%%%%%%%
+
+\input{chapter1.tex}
+
+\end{document}
