@@ -151,6 +151,57 @@
 \setlength{\nomitemsep}{-\parsep}
 \setlength{\nomlabelwidth}{1.7cm}
 
+\usepackage[bibencoding=utf8,backend=biber,sorting=none,bibstyle=phys]{biblatex}  %reference manager
+\usepackage{csquotes}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Add your bibliography file here
+\addbibresource{references.bib}
+
+% escape % in abstract of bibfile (due to it is perl program)
+\DeclareSourcemap{
+  \maps[datatype = bibtex]{
+    \map{
+       \step[fieldsource = abstract,
+          match = \regexp{([^\\])\%},
+          replace = \regexp{$1\\\%}]
+    }
+  }
+}
+
+% prevent certain fields in references from printing in bibliography
+\AtEveryBibitem{\clearfield{abstract}}
+\AtEveryBibitem{\clearlist{abstract}}
+
+\AtEveryBibitem{\clearfield{issn}}
+\AtEveryBibitem{\clearlist{issn}}
+
+\AtEveryBibitem{\clearfield{language}}
+\AtEveryBibitem{\clearlist{language}}
+
+\AtEveryBibitem{\clearfield{doi}}
+\AtEveryBibitem{\clearlist{doi}}
+
+\AtEveryBibitem{\clearfield{url}}
+\AtEveryBibitem{\clearlist{url}}
+
+\AtEveryBibitem{%
+  \ifentrytype{online}
+    {}
+    {\clearfield{urlyear}\clearfield{urlmonth}\clearfield{urlday}}}
+
+% footnote for keywords in abstract
+% https://tex.stackexchange.com/questions/30720/footnote-without-a-marker
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
 %%%%%%%%%%%%%%%%%%%%%%
 % Start of Document
 %%%%%%%%%%%%%%%%%%%%%%
