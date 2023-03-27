@@ -3,7 +3,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \documentclass[11pt, twoside]{report}
-\usepackage[a4paper,hmargin=3.5cm,vmargin=5.3cm,head=1.5cm,foot=3.2cm]{geometry}
+\usepackage[a4paper,top=2.5cm,bottom=3cm,left=3cm,right=3cm]{geometry}
 \usepackage[bookmarks=true, hidelinks]{hyperref}     % hyperlink
 \usepackage{url}          % simple URL typesetting
 
@@ -302,6 +302,9 @@
 
 % Adjust subsubsection title formatting
 \titleformat{\subsubsection}{\normalfont\itshape}{\thesubsection}{1em}{#1}
+
+% Restore paper margin setting
+\restoregeometry
 
 %%%%%%%%%%%%%%%%
 % Chapter 1
